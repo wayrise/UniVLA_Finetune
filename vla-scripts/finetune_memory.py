@@ -44,7 +44,7 @@ class ActionDecoder(torch.nn.Module):
         self.visual_pool = MAPBlock(n_latents = 1, vis_dim = 4096, embed_dim = hidden_dim, n_heads = hidden_dim // 64)
 
         self.proj = nn.Sequential(
-                                nn.Linear(hidden_dim, 7 * window_size),     # [changeable!] 9 DOF Action-Space
+                                nn.Linear(hidden_dim, 9 * window_size),     # [changeable!] 9 DOF Action-Space
                                 nn.Tanh(),
                     )
 
@@ -92,7 +92,7 @@ class Wrapped_Model(torch.nn.Module):
             latent_action_tokens.append(per_sample_latent_action_tokens)
         latent_action_tokens = torch.stack(latent_action_tokens).to(torch.float)
 
-        pred_action = self.action_decoder(latent_action_tokens, visual_embed).reshape(-1, self.window_size, 7)   # [changeable!] 9 DOF Action-Space
+        pred_action = self.action_decoder(latent_action_tokens, visual_embed).reshape(-1, self.window_size, 9)   # [changeable!] 9 DOF Action-Space
         loss = torch.nn.functional.l1_loss(pred_action, batch['actions'], reduction='none')
         loss_one_step = loss[:,0].mean()
         loss = loss.mean()
@@ -107,8 +107,8 @@ class FinetuneConfig:
     vla_path: str = "/data/wangyuran/univla/univla-7b-model"            # [changeable!] Path to your local UniVLA path
     lam_path: str = "/data/wangyuran/univla/univla-latent-action-model/lam-stage-2.ckpt"    # [changeable!] Path to your local latent model
     # Directory Paths
-    data_root_dir: Path = Path("/data/wangyuran/univla/modified_libero_rlds")      # [changeable!] Path to Open-X dataset directory
-    dataset_name: str = "libero_spatial_no_noops"                   # [changeable!] Name of fine-tuning dataset (e.g., `droid_wipe`)
+    data_root_dir: Path = Path("/data/wangyuran/univla/MemoryMatters_RLDS_Dataset")      # [changeable!] Path to Open-X dataset directory
+    dataset_name: str = "find_cubes_in_order"                   # [changeable!] Name of fine-tuning dataset (e.g., `droid_wipe`)
     run_root_dir: Path = Path("runs")                               # Path to directory to store logs & checkpoints
     adapter_tmp_dir: Path = Path("adapter-tmp")                     # Temporary directory for LoRA weights before fusing
 
@@ -131,7 +131,7 @@ class FinetuneConfig:
     lam_enc_blocks: int = 12
     lam_dec_blocks: int = 12
     lam_num_heads: int = 12
-    window_size: int = 12                   # [changeable!] output *window_size  action
+    window_size: int = 4                   # [changeable!] output *window_size  action
         
     # LoRA Arguments
     freeze_vla: bool = False

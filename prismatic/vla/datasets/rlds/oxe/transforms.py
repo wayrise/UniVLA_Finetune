@@ -878,6 +878,22 @@ def human_dataset_transform(sample: Dict[str, Any]) -> Dict[str, Any]:
     
     return sample
 
+def self_define_dataset_transform(trajectory: Dict[str, Any]) -> Dict[str, Any]:
+    # gripper action is in -1 (open)...1 (close) --> clip to 0...1, flip --> +1 = open, 0 = close
+    # gripper_action = trajectory["action"][:, -1:]
+    # gripper_action = invert_gripper_actions(tf.clip_by_value(gripper_action, 0, 1))
+
+    # trajectory["action"] = tf.concat(
+    #     [
+    #         trajectory["action"][:, :6],
+    #         gripper_action,
+    #     ],
+    #     axis=1,
+    # )
+    trajectory["action"] = trajectory["action"]
+    trajectory["observation"]["state"] = trajectory["observation"]["state"]
+    return trajectory
+
 
 # === Registry ===
 OXE_STANDARDIZATION_TRANSFORMS = {
@@ -969,4 +985,6 @@ OXE_STANDARDIZATION_TRANSFORMS = {
     "ego4d_split_2": human_dataset_transform,
     "ego4d_split_3": human_dataset_transform,
     "ego4d_split_4": human_dataset_transform,
+    ### Self-Define Dataset
+    "find_cubes_in_order": self_define_dataset_transform,
 }

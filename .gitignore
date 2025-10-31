@@ -3,7 +3,8 @@
 *.py[cod]
 *$py.class
 
-**/libero_log/
+
+**/*_log/
 **/eval_logs/
 vla_log/
 logs/
@@ -15,6 +16,7 @@ wandb/
 .Python
 build/
 develop-eggs/
+dataset_check/
 dist/
 downloads/
 eggs/
