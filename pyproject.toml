@@ -65,7 +65,10 @@ dependencies = [
     "timm==0.9.10",
     "tokenizers==0.19.1",
     "tqdm==4.66.4",
-    "transformers==4.40.1"
+    "transformers==4.40.1",
+    "wandb==0.22.3",
+    "webdataset==1.0.2",
+    "braceexpand==0.1.7"
 ]
 
 [project.optional-dependencies]

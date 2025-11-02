@@ -104,20 +104,20 @@ class Wrapped_Model(torch.nn.Module):
 @dataclass
 class FinetuneConfig:
     # fmt: off
-    vla_path: str = "/data/wangyuran/univla/univla-7b-model"            # [changeable!] Path to your local UniVLA path
-    lam_path: str = "/data/wangyuran/univla/univla-latent-action-model/lam-stage-2.ckpt"    # [changeable!] Path to your local latent model
+    vla_path: str = "/share_data/wangyuran/univla/univla-7b-model"            # [changeable!] Path to your local UniVLA path
+    lam_path: str = "/share_data/wangyuran/univla/univla-latent-action-model/lam-stage-2.ckpt"    # [changeable!] Path to your local latent model
     # Directory Paths
-    data_root_dir: Path = Path("/data/wangyuran/univla/MemoryMatters_RLDS_Dataset")      # [changeable!] Path to Open-X dataset directory
+    data_root_dir: Path = Path("/share_data/wangyuran/univla/MemoryMatters_RLDS_Dataset")      # [changeable!] Path to Open-X dataset directory
     dataset_name: str = "find_cubes_in_order"                   # [changeable!] Name of fine-tuning dataset (e.g., `droid_wipe`)
-    run_root_dir: Path = Path("runs")                               # Path to directory to store logs & checkpoints
-    adapter_tmp_dir: Path = Path("adapter-tmp")                     # Temporary directory for LoRA weights before fusing
+    run_root_dir: Path = Path("/share_data/wangyuran/univla/runs")                               # Path to directory to store logs & checkpoints
+    adapter_tmp_dir: Path = Path("/share_data/wangyuran/univla/adapter-tmp")                     # Temporary directory for LoRA weights before fusing
 
     # Fine-tuning Parameters
-    batch_size: int = 1                                             # [changeable!] Fine-tuning batch size
+    batch_size: int = 8                                             # [changeable!] Fine-tuning batch size
     max_steps: int = 30000                                          # Max number of fine-tuning steps
     save_steps: int = 30000                                         # Interval for checkpoint saving
     learning_rate: float = 3.5e-4                                   # Fine-tuning learning rate
-    grad_accumulation_steps: int = 8                                # [changeable!] Gradient accumulation steps
+    grad_accumulation_steps: int = 2                                # [changeable!] Gradient accumulation steps
     image_aug: bool = True                                          # Whether to train with image augmentations
     shuffle_buffer_size: int = 16000                                # Dataloader shuffle buffer size (can reduce if OOM)
     save_latest_checkpoint_only: bool = True                        # Whether to save only one checkpoint per run and
